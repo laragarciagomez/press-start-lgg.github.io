@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lara García Gómez | Game Localization Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07090f;--bg2:#0d1117;--bg3:#111820;--panel:#141e2b;
+  --cyan:#00e5ff;--magenta:#ff00c8;--green:#39ff14;--gold:#ffd700;
+  --text:#d0dde8;--muted:#5a7080;--white:#ffffff;
+  --border:#1e3a4a;--glow-c:rgba(0,229,255,.18);
+  --font-px:'Press Start 2P',monospace;
+  --font-body:'Rajdhani',sans-serif;
+  --font-mono:'Share Tech Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.6;overflow-x:hidden;}
+
+/* SCANLINES */
+body::before{
+  content:"";position:fixed;top:0;left:0;width:100%;height:100%;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0px,rgba(0,0,0,.12) 1px,transparent 1px,transparent 3px);
+  pointer-events:none;z-index:9999;
+}
+
+/* ── NAV ─────────────────────────────────── */
+nav{
+  position:fixed;top:0;width:100%;z-index:1000;
+  background:rgba(7,9,15,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--cyan);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:52px;
+}
+.nav-logo{font-family:var(--font-px);font-size:9px;color:var(--cyan);letter-spacing:1px;}
+.nav-logo span{color:var(--magenta);}
+.nav-links{display:flex;gap:4px;align-items:center;}
+.nav-links a{
+  font-family:var(--font-body);font-size:13px;font-weight:600;
+  color:var(--muted);text-decoration:none;padding:6px 12px;
+  border:1px solid transparent;border-radius:2px;
+  text-transform:uppercase;letter-spacing:.5px;
+  transition:all .2s;
+}
+.nav-links a:hover{color:var(--cyan);border-color:var(--cyan);background:rgba(0,229,255,.06);}
+.lang-btn{
+  font-family:var(--font-px);font-size:8px;padding:6px 10px;
+  background:transparent;border:1px solid var(--gold);color:var(--gold);
+  cursor:pointer;border-radius:2px;transition:all .2s;margin-left:8px;
+}
+.lang-btn:hover,.lang-btn.active{background:var(--gold);color:var(--bg);}
+
+/* ── HERO ────────────────────────────────── */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:80px 32px 40px;text-align:center;
+  position:relative;overflow:hidden;
+}
+#hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 40%,rgba(0,229,255,.07) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 30% at 20% 80%,rgba(255,0,200,.05) 0%,transparent 60%);
+}
+
+/* pixel grid bg */
+#hero::after{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,229,255,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,255,.04) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+
+.hero-tag{
+  font-family:var(--font-px);font-size:8px;color:var(--green);
+  letter-spacing:3px;margin-bottom:20px;
+  animation:blink 1.4s step-end infinite;
+  position:relative;z-index:1;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0;}}
+
+.hero-name{
+  font-family:var(--font-px);font-size:clamp(18px,3vw,32px);
+  color:var(--white);line-height:1.6;margin-bottom:16px;
+  position:relative;z-index:1;
+  text-shadow:0 0 30px rgba(0,229,255,.5),0 0 60px rgba(0,229,255,.2);
+}
+.hero-name span{color:var(--cyan);}
+
+.hero-sub{
+  font-family:var(--font-mono);font-size:clamp(12px,1.6vw,16px);
+  color:var(--cyan);margin-bottom:8px;
+  position:relative;z-index:1;letter-spacing:1px;
+}
+.hero-sub2{
+  font-family:var(--font-mono);font-size:13px;color:var(--muted);
+  margin-bottom:40px;position:relative;z-index:1;
+}
+
+.hero-badges{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  margin-bottom:48px;position:relative;z-index:1;
+}
+.badge{
+  font-family:var(--font-body);font-size:13px;font-weight:700;
+  border:1px solid;padding:5px 14px;border-radius:2px;
+  text-transform:uppercase;letter-spacing:.5px;
+}
+.badge-c{border-color:var(--cyan);color:var(--cyan);background:rgba(0,229,255,.08);}
+.badge-m{border-color:var(--magenta);color:var(--magenta);background:rgba(255,0,200,.08);}
+.badge-g{border-color:var(--green);color:var(--green);background:rgba(57,255,20,.08);}
+.badge-y{border-color:var(--gold);color:var(--gold);background:rgba(255,215,0,.08);}
+
+.hero-cta{
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:center;
+  position:relative;z-index:1;
+}
+.btn{
+  font-family:var(--font-px);font-size:8px;padding:14px 20px;
+  text-decoration:none;text-transform:uppercase;letter-spacing:1px;
+  transition:all .2s;border-radius:2px;
+}
+.btn-primary{background:var(--cyan);color:var(--bg);border:2px solid var(--cyan);}
+.btn-primary:hover{background:transparent;color:var(--cyan);box-shadow:0 0 20px rgba(0,229,255,.4);}
+.btn-secondary{background:transparent;color:var(--magenta);border:2px solid var(--magenta);}
+.btn-secondary:hover{background:var(--magenta);color:var(--bg);}
+
+/* pixel corner decoration */
+.hero-corner{
+  position:absolute;width:60px;height:60px;
+  border-color:var(--cyan);opacity:.4;
+}
+.c-tl{top:80px;left:20px;border-top:2px solid;border-left:2px solid;}
+.c-tr{top:80px;right:20px;border-top:2px solid;border-right:2px solid;}
+.c-bl{bottom:20px;left:20px;border-bottom:2px solid;border-left:2px solid;}
+.c-br{bottom:20px;right:20px;border-bottom:2px solid;border-right:2px solid;}
+
+/* ── SECTIONS ────────────────────────────── */
+section{padding:80px 32px;max-width:1060px;margin:0 auto;}
+
+.sec-label{
+  font-family:var(--font-px);font-size:8px;color:var(--magenta);
+  letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;
+}
+h2{
+  font-family:var(--font-px);font-size:clamp(14px,2vw,20px);
+  color:var(--white);margin-bottom:40px;padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+h2::before{content:"▶";color:var(--cyan);font-size:.7em;}
+
+/* ── ABOUT ───────────────────────────────── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.about-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:4px;padding:24px;
+  border-left:3px solid var(--cyan);
+  transition:border-color .2s,box-shadow .2s;
+}
+.about-card:hover{border-left-color:var(--magenta);box-shadow:0 0 20px rgba(255,0,200,.1);}
+.about-card h3{font-family:var(--font-px);font-size:9px;color:var(--cyan);margin-bottom:14px;}
+.about-card p{font-size:15px;line-height:1.75;color:var(--text);}
+.about-card ul{padding-left:0;list-style:none;margin-top:10px;}
+.about-card li{font-size:15px;line-height:2;color:var(--text);padding-left:16px;position:relative;}
+.about-card li::before{content:"◆";position:absolute;left:0;color:var(--gold);font-size:.6em;top:4px;}
+
+/* ── SKILLS ──────────────────────────────── */
+.skills-container{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+.skill-group h3{font-family:var(--font-px);font-size:8px;color:var(--gold);margin-bottom:16px;letter-spacing:1px;}
+.skill-bar-wrap{margin-bottom:14px;}
+.skill-bar-label{display:flex;justify-content:space-between;margin-bottom:6px;}
+.skill-name{font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--text);}
+.skill-level{font-family:var(--font-mono);font-size:12px;color:var(--muted);}
+.skill-track{background:var(--panel);border:1px solid var(--border);height:10px;border-radius:2px;overflow:hidden;}
+.skill-fill{height:100%;border-radius:2px;transition:width 1s cubic-bezier(.4,0,.2,1);}
+.fill-cyan{background:linear-gradient(90deg,var(--cyan),rgba(0,229,255,.5));}
+.fill-magenta{background:linear-gradient(90deg,var(--magenta),rgba(255,0,200,.5));}
+.fill-green{background:linear-gradient(90deg,var(--green),rgba(57,255,20,.5));}
+.fill-gold{background:linear-gradient(90deg,var(--gold),rgba(255,215,0,.5));}
+
+.tools-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.tool-chip{
+  font-family:var(--font-mono);font-size:12px;
+  border:1px solid var(--border);padding:5px 12px;border-radius:2px;
+  color:var(--muted);transition:all .2s;cursor:default;
+}
+.tool-chip:hover{border-color:var(--cyan);color:var(--cyan);}
+
+/* ── PROJECTS ────────────────────────────── */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.proj-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:4px;
+  overflow:hidden;transition:all .25s;position:relative;
+}
+.proj-card:hover{border-color:var(--cyan);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,229,255,.12);}
+.proj-header{
+  padding:14px 20px;display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--border);background:rgba(255,255,255,.02);
+}
+.proj-title{font-family:var(--font-px);font-size:8px;color:var(--white);line-height:1.8;}
+.proj-genre{
+  font-family:var(--font-px);font-size:6px;padding:3px 8px;border-radius:2px;
+  white-space:nowrap;flex-shrink:0;
+}
+.g-rpg{background:rgba(255,215,0,.15);color:var(--gold);border:1px solid rgba(255,215,0,.3);}
+.g-fps{background:rgba(255,0,200,.15);color:var(--magenta);border:1px solid rgba(255,0,200,.3);}
+.g-mob{background:rgba(57,255,20,.15);color:var(--green);border:1px solid rgba(57,255,20,.3);}
+.g-avt{background:rgba(0,229,255,.15);color:var(--cyan);border:1px solid rgba(0,229,255,.3);}
+.g-web{background:rgba(180,100,255,.15);color:#c084fc;border:1px solid rgba(180,100,255,.3);}
+.g-lqa{background:rgba(255,100,100,.15);color:#ff6b6b;border:1px solid rgba(255,100,100,.3);}
+.g-dub{background:rgba(255,165,0,.15);color:#ffa500;border:1px solid rgba(255,165,0,.3);}
+.g-ui{background:rgba(100,200,255,.15);color:#64c8ff;border:1px solid rgba(100,200,255,.3);}
+
+.proj-body{padding:18px 20px;}
+.proj-body p{font-size:14px;line-height:1.7;color:#a0b4c0;margin-bottom:10px;}
+.proj-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.tag{font-family:var(--font-mono);font-size:10px;background:var(--bg3);border:1px solid var(--border);padding:2px 8px;border-radius:2px;color:var(--muted);}
+.proj-meta{
+  padding:10px 20px;border-top:1px solid var(--border);
+  font-family:var(--font-mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.sample-btn{
+  font-family:var(--font-px);font-size:7px;padding:5px 10px;
+  background:transparent;border:1px solid var(--gold);color:var(--gold);
+  text-decoration:none;border-radius:2px;white-space:nowrap;
+  transition:all .2s;cursor:pointer;
+}
+.sample-btn:hover{background:var(--gold);color:var(--bg);}
+.sample-btn.placeholder{border-color:var(--muted);color:var(--muted);}
+.sample-btn.placeholder:hover{border-color:var(--gold);color:var(--gold);background:transparent;}
+
+/* ── FCAT ────────────────────────────────── */
+.fcat-wrap{background:var(--panel);border:1px solid var(--border);border-top:3px solid var(--gold);border-radius:4px;padding:32px;}
+.fcat-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0;}
+.stat-box{text-align:center;background:var(--bg3);border:1px solid var(--border);padding:20px 12px;border-radius:4px;}
+.stat-num{font-family:var(--font-px);font-size:24px;color:var(--gold);margin-bottom:6px;}
+.stat-label{font-family:var(--font-body);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.protocol-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;}
+.proto-item{background:var(--bg3);border-left:3px solid var(--cyan);padding:12px 14px;border-radius:0 4px 4px 0;font-size:14px;line-height:1.6;color:#a0b4c0;}
+.proto-item strong{color:var(--white);}
+
+/* ── EDUCATION ───────────────────────────── */
+.edu-list{display:flex;flex-direction:column;gap:2px;}
+.edu-item{
+  display:grid;grid-template-columns:4px 1fr;gap:20px;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:4px;overflow:hidden;margin-bottom:12px;
+}
+.edu-stripe{background:var(--cyan);}
+.edu-content{padding:18px 18px 18px 0;}
+.edu-content h3{font-family:var(--font-body);font-size:16px;font-weight:700;color:var(--white);margin-bottom:4px;}
+.edu-content .where{font-family:var(--font-mono);font-size:13px;color:var(--cyan);margin-bottom:8px;}
+.edu-content p{font-size:14px;line-height:1.7;color:#8099aa;}
+
+/* ── LANGUAGES ───────────────────────────── */
+.lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+.lang-item{margin-bottom:20px;}
+.lang-row{display:flex;align-items:center;gap:14px;margin-bottom:8px;}
+.lang-name{font-family:var(--font-px);font-size:8px;color:var(--white);width:100px;}
+.lang-pips{display:flex;gap:4px;}
+.pip{width:20px;height:8px;border-radius:1px;border:1px solid;}
+.pip.filled{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 6px rgba(0,229,255,.5);}
+.pip.empty{background:transparent;border-color:var(--border);}
+.lang-tag{font-family:var(--font-mono);font-size:11px;color:var(--muted);}
+
+/* ── CONTACT ─────────────────────────────── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.contact-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:28px;}
+.contact-card h3{font-family:var(--font-px);font-size:9px;color:var(--cyan);margin-bottom:16px;}
+.contact-card p{font-size:15px;line-height:2.2;color:var(--text);}
+.contact-card a{color:var(--gold);text-decoration:none;}
+.contact-card a:hover{color:var(--cyan);}
+
+/* ── FOOTER ──────────────────────────────── */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  text-align:center;padding:40px 32px;
+  font-family:var(--font-mono);font-size:12px;color:var(--muted);
+}
+footer strong{color:var(--text);}
+footer .heart{color:var(--magenta);}
+
+/* ── UTIL ────────────────────────────────── */
+.hidden{display:none!important;}
+.glitch{position:relative;}
+.glitch::before,.glitch::after{
+  content:attr(data-text);position:absolute;left:0;top:0;width:100%;height:100%;
+}
+.glitch::before{color:var(--magenta);animation:glitch1 3s infinite;clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%);}
+.glitch::after{color:var(--cyan);animation:glitch2 3s infinite;clip-path:polygon(0 60%,100% 60%,100% 80%,0 80%);}
+@keyframes glitch1{0%,90%,100%{transform:translateX(0);}92%{transform:translateX(-3px);}96%{transform:translateX(2px);}}
+@keyframes glitch2{0%,90%,100%{transform:translateX(0);}93%{transform:translateX(3px);}97%{transform:translateX(-2px);}}
+
+/* full-width bg section */
+.full-bg{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);width:100%;padding:80px 0;}
+.full-bg>section{padding-top:0;padding-bottom:0;}
+
+@media(max-width:700px){
+  nav{padding:0 16px;}
+  .nav-links a{display:none;}
+  .about-grid,.skills-container,.proj-grid,.contact-grid,.lang-grid,.protocol-list,.fcat-stats{grid-template-columns:1fr;}
+  .hero-name{font-size:16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo">LGG<span>::</span>GAME_LOC</div>
+  <div class="nav-links">
+    <a href="#about" data-en="About" data-es="Sobre mí">About</a>
+    <a href="#skills" data-en="Skills" data-es="Habilidades">Skills</a>
+    <a href="#projects" data-en="Projects" data-es="Proyectos">Projects</a>
+    <a href="#fcat" data-en="FCAT" data-es="FCAT">FCAT</a>
+    <a href="#education" data-en="Education" data-es="Formación">Education</a>
+    <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+  </div>
+</nav>
+
+<!-- ══ HERO ══════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-corner c-tl"></div>
+  <div class="hero-corner c-tr"></div>
+  <div class="hero-corner c-bl"></div>
+  <div class="hero-corner c-br"></div>
+
+  <p class="hero-tag" data-en="▶ PRESS START — LEVEL 1 UNLOCKED" data-es="▶ PULSA START — NIVEL 1 DESBLOQUEADO">▶ PRESS START — LEVEL 1 UNLOCKED</p>
+
+  <h1 class="hero-name glitch" data-text="LARA GARCÍA GÓMEZ">
+    <span>LARA</span> GARCÍA <span>GÓMEZ</span>
+  </h1>
+
+  <p class="hero-sub" data-en="GAME LOCALIZATION SPECIALIST  ·  EN ↔ ES" data-es="ESPECIALISTA EN LOCALIZACIÓN DE VIDEOJUEGOS  ·  EN ↔ ES">GAME LOCALIZATION SPECIALIST  ·  EN ↔ ES</p>
+  <p class="hero-sub2" data-en="LQA  ·  QA  ·  CAT Tools  ·  Subtitling  ·  APK Localization  ·  Jersey City, NJ, USA" data-es="LQA  ·  QA  ·  Herramientas CAT  ·  Subtitulado  ·  Localización APK  ·  Jersey City, NJ, EE.UU.">LQA  ·  QA  ·  CAT Tools  ·  Subtitling  ·  APK Localization  ·  Jersey City, NJ, USA</p>
+
+  <div class="hero-badges">
+    <span class="badge badge-c">EN → ES Native</span>
+    <span class="badge badge-m">M.A. Game Loc · ISTRAD 2026</span>
+    <span class="badge badge-g">13+ Localization Projects</span>
+    <span class="badge badge-y">US-Based · Remote Ready</span>
+  </div>
+
+  <div class="hero-cta">
+    <a href="#projects" class="btn btn-primary" data-en="VIEW PROJECTS" data-es="VER PROYECTOS">VIEW PROJECTS</a>
+    <a href="mailto:lagago11@gmail.com" class="btn btn-secondary" data-en="CONTACT ME" data-es="CONTÁCTAME">CONTACT ME</a>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══════════════════════════════════════════════ -->
+<div class="full-bg">
+<section id="about">
+  <p class="sec-label" data-en="PLAYER PROFILE" data-es="PERFIL DEL JUGADOR">PLAYER PROFILE</p>
+  <h2 data-en="About Me" data-es="Sobre mí">About Me</h2>
+  <div class="about-grid">
+    <div class="about-card">
+      <h3 data-en="WHO I AM" data-es="QUIÉN SOY">WHO I AM</h3>
+      <p data-en="I am a bilingual game localization specialist (EN↔ES) with a Master's in Video Game Translation and Localization (ISTRAD, 2026). I combine native Spanish fluency, C1 English, and 13+ hands-on localization projects across RPG, FPS, mobile, web, and audiovisual game content.<br><br>I have lived and worked in Ireland, Poland, Italy, Australia, and the United States. This cross-cultural depth means my localizations don't just translate — they land. I am based in Jersey City, NJ, fully available for remote (US & international) or onsite NYC roles."
+         data-es="Soy una especialista bilingüe en localización de videojuegos (EN↔ES) con un Máster en Traducción y Localización de Videojuegos (ISTRAD, 2026). Combino español nativo, inglés C1 y más de 13 proyectos prácticos en géneros RPG, FPS, móvil, web y contenido audiovisual de videojuegos.<br><br>He vivido y trabajado en Irlanda, Polonia, Italia, Australia y Estados Unidos. Esta profundidad intercultural hace que mis localizaciones no solo traduzcan, sino que conecten. Estoy basada en Jersey City, NJ, disponible para trabajo remoto (EE.UU. e internacional) o presencial en NYC.">
+        I am a bilingual game localization specialist (EN↔ES) with a Master's in Video Game Translation and Localization (ISTRAD, 2026). I combine native Spanish fluency, C1 English, and 13+ hands-on localization projects across RPG, FPS, mobile, web, and audiovisual game content.<br><br>Based in Jersey City, NJ — available for remote (US & international) or onsite NYC positions.
+      </p>
+    </div>
+    <div class="about-card">
+      <h3 data-en="WHAT I LOCALIZE" data-es="QUÉ LOCALIZO">WHAT I LOCALIZE</h3>
+      <ul>
+        <li data-en="RPG / Narrative — dialogue trees, lore, item descriptions" data-es="RPG / Narrativa — árboles de diálogo, lore, descripciones de objetos">RPG / Narrative — dialogue trees, lore, item descriptions</li>
+        <li data-en="FPS / Action — UI strings, HUD, weapon data, mission text" data-es="FPS / Acción — cadenas UI, HUD, datos de armas, texto de misiones">FPS / Action — UI strings, HUD, weapon data, mission text</li>
+        <li data-en="Mobile / Android — XML strings, APK, IAP, push notifications" data-es="Móvil / Android — cadenas XML, APK, compras in-app, notificaciones">Mobile / Android — XML strings, APK, IAP, push notifications</li>
+        <li data-en="Web — HTML page localization, metadata, navigation" data-es="Web — localización HTML, metadatos, navegación">Web — HTML page localization, metadata, navigation</li>
+        <li data-en="Audiovisual — game trailer subtitles, dubbing adaptation" data-es="Audiovisual — subtítulos de trailers, adaptación de doblaje">Audiovisual — game trailer subtitles, dubbing adaptation</li>
+        <li data-en="Technical — game manuals, safety docs, marketing materials" data-es="Técnico — manuales, documentación de seguridad, marketing">Technical — game manuals, safety docs, marketing materials</li>
+        <li data-en="LQA / QA — bug identification, error typology, test reports" data-es="LQA / QA — identificación de errores, tipología, informes">LQA / QA — bug identification, error typology, test reports</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ══ SKILLS ══════════════════════════════════════════════ -->
+<section id="skills">
+  <p class="sec-label" data-en="SKILL TREE" data-es="ÁRBOL DE HABILIDADES">SKILL TREE</p>
+  <h2 data-en="Skills & Tools" data-es="Habilidades y Herramientas">Skills &amp; Tools</h2>
+  <div class="skills-container">
+    <div>
+      <div class="skill-group"><h3 data-en="LOCALIZATION SKILLS" data-es="HABILIDADES DE LOCALIZACIÓN">LOCALIZATION SKILLS</h3></div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name" data-en="Game Translation (EN→ES)" data-es="Traducción de juegos (EN→ES)">Game Translation (EN→ES)</span>
+          <span class="skill-level">████████████</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-cyan" style="width:95%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name" data-en="XML / Android Localization" data-es="Localización XML / Android">XML / Android Localization</span>
+          <span class="skill-level">██████████░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-cyan" style="width:88%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name" data-en="LQA / QA Testing" data-es="LQA / Control de Calidad">LQA / QA Testing</span>
+          <span class="skill-level">█████████░░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-magenta" style="width:82%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name" data-en="NMT Post-Editing (Full & Rapid)" data-es="Posedición NMT (Completa y Rápida)">NMT Post-Editing</span>
+          <span class="skill-level">█████████░░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-magenta" style="width:80%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name" data-en="Subtitling (SRT/VTT/SDH)" data-es="Subtitulado (SRT/VTT/SDH)">Subtitling (SRT/VTT/SDH)</span>
+          <span class="skill-level">██████████░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-green" style="width:85%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name" data-en="Dubbing Adaptation" data-es="Adaptación de Doblaje">Dubbing Adaptation</span>
+          <span class="skill-level">████████░░░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-green" style="width:72%"></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group"><h3 data-en="TOOLS & TECHNOLOGY" data-es="HERRAMIENTAS Y TECNOLOGÍA">TOOLS & TECHNOLOGY</h3></div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name">Trados Studio</span>
+          <span class="skill-level">█████████░░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-gold" style="width:82%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name">MemoQ</span>
+          <span class="skill-level">████████░░░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-gold" style="width:78%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name">SmartCAT</span>
+          <span class="skill-level">████████░░░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-gold" style="width:75%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name">Microsoft Excel (TM workflows)</span>
+          <span class="skill-level">██████████░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-gold" style="width:88%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name">XML / HTML Localization</span>
+          <span class="skill-level">█████████░░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-gold" style="width:83%"></div></div>
+      </div>
+      <div class="skill-bar-wrap">
+        <div class="skill-bar-label">
+          <span class="skill-name">Photoshop (DTP/Graphic Loc)</span>
+          <span class="skill-level">███████░░░░░</span>
+        </div>
+        <div class="skill-track"><div class="skill-fill fill-gold" style="width:65%"></div></div>
+      </div>
+
+      <div class="tools-grid" style="margin-top:24px;">
+        <span class="tool-chip">Phrase</span>
+        <span class="tool-chip">Crowdin</span>
+        <span class="tool-chip">XTM</span>
+        <span class="tool-chip">DeepL</span>
+        <span class="tool-chip">Power BI</span>
+        <span class="tool-chip">SharePoint</span>
+        <span class="tool-chip">Python (basic)</span>
+        <span class="tool-chip">SRT/VTT</span>
+        <span class="tool-chip">strings.xml</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══════════════════════════════════════════════ -->
+<div class="full-bg">
+<section id="projects">
+  <p class="sec-label" data-en="COMPLETED QUESTS" data-es="MISIONES COMPLETADAS">COMPLETED QUESTS</p>
+  <h2 data-en="Localization Projects" data-es="Proyectos de Localización">Localization Projects</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:12px;font-family:var(--font-mono);"
+     data-en="// Academic projects completed during M.A. in Video Game Translation and Localization (ISTRAD, 2025–2026) using professional industry tools and workflows."
+     data-es="// Proyectos académicos completados durante el Máster en Traducción y Localización de Videojuegos (ISTRAD, 2025–2026) usando herramientas y flujos de trabajo profesionales."
+  >// Academic projects completed during M.A. in Video Game Translation and Localization (ISTRAD, 2025–2026) using professional industry tools and workflows.</p>
+  <p style="font-size:13px;color:var(--gold);margin-bottom:28px;font-family:var(--font-mono);background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.2);padding:10px 16px;border-radius:3px;"
+     data-en="📁 Click &#39;VIEW SAMPLE&#39; on each project to open the file. To activate the links: upload your files to Google Drive (share as public) or GitHub, then replace the placeholder URLs in the HTML."
+     data-es="📁 Haz clic en &#39;VER MUESTRA&#39; en cada proyecto para abrir el archivo. Para activar los enlaces: sube tus archivos a Google Drive (compartir como público) o GitHub y reemplaza las URLs en el HTML."
+  >📁 Click 'VIEW SAMPLE' on each project to open the file. Upload your files to Google Drive or GitHub and replace the placeholder URLs in the HTML.</p>
+
+  <div class="proj-grid">
+
+    <!-- 1 Children of Morta -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="RPG GAME LOCALIZATION" data-es="LOCALIZACIÓN DE RPG">RPG GAME LOCALIZATION</span>
+        <span class="proj-genre g-rpg" data-en="RPG" data-es="RPG">RPG</span>
+      </div>
+      <div class="proj-body">
+        <p><strong style="color:var(--white)">Children of Morta</strong> <span data-en="— an acclaimed indie RPG by Dead Mage. Localized gameplay text including narrative strings, character dialogue, item descriptions, and ability text from English into Spanish." data-es="— aclamado RPG indie de Dead Mage. Localización de texto de juego: cadenas narrativas, diálogos de personajes, descripciones de objetos y texto de habilidades del inglés al español.">— an acclaimed indie RPG by Dead Mage. Localized gameplay text including narrative strings, character dialogue, item descriptions, and ability text from English into Spanish.</span></p>
+        <div class="proj-tags">
+          <span class="tag">EN → ES</span><span class="tag">Excel TM</span><span class="tag">Narrative</span><span class="tag">Item Descriptions</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span data-en="CAT-assisted · Oct 2025" data-es="Asistido por CAT · Oct 2025">CAT-assisted · Oct 2025</span>
+        <a href="https://docs.google.com/spreadsheets/d/13MZTukPe_YufgOm6vX78H7NimH1c7fw2/edit?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a>
+      </div>
+    </div>
+
+    <!-- 2 Shadow of War Dubbing -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="DUBBING ADAPTATION" data-es="ADAPTACIÓN DE DOBLAJE">DUBBING ADAPTATION</span>
+        <span class="proj-genre g-dub" data-en="DUB" data-es="DOBLAJE">DUB</span>
+      </div>
+      <div class="proj-body">
+        <p><strong style="color:var(--white)">Middle-earth: Shadow of War</strong> <span data-en="— Main quest dialogue adapted for Spanish dubbing. Applied isocronía, lip sync, temporal and sound synchronisation. Documented methodology in technical report comparing before/after adjustments." data-es="— Diálogos de la misión principal adaptados para doblaje al español. Aplicada isocronía, sincronía labial, temporal y sonora. Metodología documentada en informe técnico comparando ajustes.">— Main quest dialogue adapted for Spanish dubbing. Applied isocronía, lip sync, temporal and sound synchronisation.</span></p>
+        <div class="proj-tags">
+          <span class="tag">EN → ES</span><span class="tag">Isocronía</span><span class="tag">Lip Sync</span><span class="tag">Dubbing</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>Monolith Productions · Warner Bros. · Nov 2025</span>
+        <a href="https://docs.google.com/spreadsheets/d/1U5k7EF82MEdOof-DqMZLJ1qE3O3n4k4U/edit?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a><a href="https://docs.google.com/document/d/1a8lBFpmVmlOQ4yNucgwvIFqSDioKgUZt/edit?usp=drive_link" target="_blank" class="sample-btn" style="margin-left:6px;border-color:var(--muted);color:var(--muted);" data-en="📄 ANALYSIS" data-es="📄 ANÁLISIS">📄 ANALYSIS</a>
+      </div>
+    </div>
+
+    <!-- 3 Shadow of War SRT -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="GAME TRAILER SUBTITLING" data-es="SUBTITULADO DE TRÁILER">GAME TRAILER SUBTITLING</span>
+        <span class="proj-genre g-avt" data-en="SRT" data-es="SRT">SRT</span>
+      </div>
+      <div class="proj-body">
+        <p><strong style="color:var(--white)">Middle-earth: Shadow of War</strong> <span data-en="— Spanish SRT subtitle file created for the official game trailer. Timing synchronisation, condensation, line-break rules applied. Conveyed epic narrative tone and fantasy terminology." data-es="— Archivo SRT de subtítulos en español creado para el tráiler oficial del juego. Sincronización temporal, condensación y reglas de división de líneas aplicadas.">— Spanish SRT subtitle file created for the official game trailer. Timing synchronisation, condensation, and fantasy terminology in Spanish.</span></p>
+        <div class="proj-tags">
+          <span class="tag">EN → ES</span><span class="tag">SRT</span><span class="tag">Timing Sync</span><span class="tag">Fantasy Terminology</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>Shadow of War · WB Games · Nov 2025</span>
+        <a href="https://drive.google.com/file/d/1kZ86JLqK32DESCKVlxpG1V3FJiC3WGF9/view?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a>
+      </div>
+    </div>
+
+    <!-- 4 Warmux APK -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="ANDROID APK LOCALIZATION" data-es="LOCALIZACIÓN DE APK ANDROID">ANDROID APK LOCALIZATION</span>
+        <span class="proj-genre g-mob" data-en="APK" data-es="APK">APK</span>
+      </div>
+      <div class="proj-body">
+        <p><strong style="color:var(--white)">Warmux</strong> <span data-en="— Open-source action game. Localized the complete Android APK from English to Spanish: 100+ XML strings including menus, device settings, download screens, control remapping, audio configuration, and error handling with printf-style placeholders (%s, %d, %%)." data-es="— Juego de acción de código abierto. Localización completa del APK Android del inglés al español: más de 100 cadenas XML incluyendo menús, configuración del dispositivo, pantallas de descarga, controles y gestión de errores con marcadores printf (%s, %d, %%).">— Open-source action game. Localized the complete Android APK from English to Spanish: 100+ XML strings including settings, controls, and error messages.</span></p>
+        <div class="proj-tags">
+          <span class="tag">EN → ES</span><span class="tag">XML</span><span class="tag">strings.xml</span><span class="tag">Android APK</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>Warmux · Open Source · Jan 2026</span>
+        <a href="https://drive.google.com/file/d/1bvXNLNj6l_tOw1OVYp4NWq2Cpgco3H1n/view?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a>
+      </div>
+    </div>
+
+    <!-- 5 Football Quiz -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="MOBILE APP LOCALIZATION" data-es="LOCALIZACIÓN DE APP MÓVIL">MOBILE APP LOCALIZATION</span>
+        <span class="proj-genre g-mob" data-en="MOBILE" data-es="MÓVIL">MOBILE</span>
+      </div>
+      <div class="proj-body">
+        <p><strong style="color:var(--white)">Football Logo Quiz</strong> <span data-en="— Android quiz game localized from Polish to Spanish. 80+ UI strings: menus, level progression, achievement popups, store interface, and in-game feedback messages. First PL→ES localization project." data-es="— Juego de quiz Android localizado del polaco al español. Más de 80 cadenas UI: menús, progresión de niveles, logros, interfaz de tienda y mensajes de retroalimentación. Primer proyecto PL→ES.">— Android quiz game localized from Polish to Spanish. 80+ UI strings: menus, achievements, store, and level progression messages. PL → ES language pair.</span></p>
+        <div class="proj-tags">
+          <span class="tag">PL → ES</span><span class="tag">XML</span><span class="tag">Android</span><span class="tag">Quiz / Casual</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>Football Logo Quiz · Mobile · Jan 2026</span>
+        <a href="https://drive.google.com/file/d/1I-MajvDpCY1TyzPTp7DM2EtHxbUCnw1b/view?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a>
+      </div>
+    </div>
+
+    <!-- 6 Japan Zone Web -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="WEBSITE LOCALIZATION" data-es="LOCALIZACIÓN DE SITIO WEB">WEBSITE LOCALIZATION</span>
+        <span class="proj-genre g-web" data-en="WEB" data-es="WEB">WEB</span>
+      </div>
+      <div class="proj-body">
+        <p><strong style="color:var(--white)">Japan Zone — Game Developers</strong> <span data-en="— Localized the Game Developers section of Japan Zone into Spanish: Japanese studio profiles (Nintendo, Sega, Capcom…), navigation, metadata, and accessibility attributes in HTML. Wrote a full localization strategy report." data-es="— Localización al español de la sección de desarrolladores de Japan Zone: perfiles de estudios japoneses (Nintendo, Sega, Capcom…), navegación, metadatos y atributos de accesibilidad en HTML. Informe de estrategia de localización redactado.">— Localized Game Developers section (Nintendo, Sega, Capcom…). Full HTML localization of content, navigation, metadata, and accessibility. Wrote localization strategy report.</span></p>
+        <div class="proj-tags">
+          <span class="tag">EN → ES</span><span class="tag">HTML</span><span class="tag">Web Loc</span><span class="tag">Loc Report</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>Japan Zone Website · Feb 2026</span>
+        <a href="https://drive.google.com/file/d/1aYRDexX9smFIisNcXV0JIsa80Zt3iCB1/view?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a><a href="https://docs.google.com/document/d/1_AM3-km2OrL454LDn5oHhffX5LX8ScZZ/edit?usp=drive_link" target="_blank" class="sample-btn" style="margin-left:6px;border-color:var(--muted);color:var(--muted);" data-en="📄 LOC REPORT" data-es="📄 INFORME">📄 LOC REPORT</a>
+      </div>
+    </div>
+
+    <!-- 7 PS3 Technical -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="TECHNICAL GAME DOCUMENTATION" data-es="DOCUMENTACIÓN TÉCNICA">TECHNICAL GAME DOCUMENTATION</span>
+        <span class="proj-genre g-ui" data-en="TECH" data-es="TÉC.">TECH</span>
+      </div>
+      <div class="proj-body">
+        <p><strong style="color:var(--white)">PlayStation 3 Hardware Manual</strong> <span data-en="— Translated FCC compliance warnings, photosensitivity / epilepsy health notices, and legal regulatory text from English to Spanish. Applied technical legal terminology and formal register." data-es="— Traducción de avisos de cumplimiento FCC, notificaciones sanitarias de fotosensibilidad/epilepsia y texto legal regulatorio del inglés al español. Terminología técnica legal aplicada.">— Translated FCC compliance warnings, photosensitivity/epilepsy notices, and legal text. Technical register and legal terminology in Spanish.</span></p>
+        <div class="proj-tags">
+          <span class="tag">EN → ES</span><span class="tag">Technical</span><span class="tag">Legal</span><span class="tag">Hardware Docs</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>PlayStation 3 · Sony · Oct 2025</span>
+        <a href="https://docs.google.com/document/d/1As6CewVWW45N4MOlzpNxZ-5qqEOM6077/edit?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a><a href="https://docs.google.com/document/d/1XD9KnTJ7zurAkHr_z0hRD3LDkg7kkQFS/edit?usp=drive_link" target="_blank" class="sample-btn" style="margin-left:6px;border-color:var(--muted);color:var(--muted);" data-en="📄 PART 2" data-es="📄 PARTE 2">📄 PART 2</a>
+      </div>
+    </div>
+
+    <!-- 8 NMM Post-Editing -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="NMT POST-EDITING" data-es="POSEDICIÓN DE TMA">NMT POST-EDITING</span>
+        <span class="proj-genre g-ui" data-en="MTPE" data-es="MTPE">MTPE</span>
+      </div>
+      <div class="proj-body">
+        <p><strong style="color:var(--white)">Nexus Mod Manager Blog Post</strong> <span data-en="— Full post-editing AND rapid post-editing of DeepL NMT output for a 6,500+ word gaming blog post. Corrected register, gaming terminology, fluency, and syntax errors. Documented methodology differences between both approaches." data-es="— Posedición completa Y posedición rápida de la salida NMT de DeepL para un artículo de blog de juegos de más de 6.500 palabras. Corregidos registro, terminología, fluidez y errores sintácticos.">— Full + rapid post-editing of DeepL NMT output for a 6,500+ word gaming content piece. Corrected register, terminology, and fluency errors throughout.</span></p>
+        <div class="proj-tags">
+          <span class="tag">EN → ES</span><span class="tag">MTPE</span><span class="tag">Full PE</span><span class="tag">Rapid PE</span><span class="tag">DeepL</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>Nexus Mod Manager · Nexus Mods · Nov 2025</span>
+        <a href="https://docs.google.com/document/d/18Jsm8TrehZBd6JDo7RlNSQErJ8tl154v/edit?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a><a href="https://docs.google.com/document/d/1RQuP_Oh2vbWOySJDgPaXYMG_6cRB0-7e/edit?usp=drive_link" target="_blank" class="sample-btn" style="margin-left:6px;border-color:var(--muted);color:var(--muted);" data-en="📄 RAPID PE" data-es="📄 PE RÁPIDA">📄 RAPID PE</a>
+      </div>
+    </div>
+
+    <!-- 9 LQA -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="LQA TESTING — MULTIPLE GAMES" data-es="PRUEBAS LQA — VARIOS JUEGOS">LQA TESTING — MULTIPLE GAMES</span>
+        <span class="proj-genre g-lqa" data-en="LQA" data-es="LQA">LQA</span>
+      </div>
+      <div class="proj-body">
+        <p data-en="Analysed in-game screenshots from Factorio, Civilization V, and other titles for Spanish localization errors. Identified and classified bugs: mistranslation, text overrun, cut-off text, text/image mismatch. Wrote LQA reports in English using professional error typology templates."
+           data-es="Análisis de capturas de pantalla de Factorio, Civilization V y otros juegos para detectar errores de localización en español. Identificación y clasificación de errores: traducción errónea, desbordamiento, texto cortado, inconsistencia imagen/texto. Informes LQA escritos en inglés.">Analysed screenshots from Factorio and Civilization V. Identified and classified localisation bugs — mistranslation, text overrun, cut-off text, text/image mismatch. Professional LQA reports in English.</p>
+        <div class="proj-tags">
+          <span class="tag">LQA</span><span class="tag">Bug Reports</span><span class="tag">Factorio</span><span class="tag">Civilization V</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>LQA Module — ISTRAD · Dec 2025</span>
+        <a href="https://docs.google.com/document/d/1e5wpU3HsXD5RviwXNeN055oiCGWHUBjj/edit?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a><a href="https://docs.google.com/spreadsheets/d/1gB6I4RJwmBB9KlsWR9gmuumNr9Tswjvs/edit?usp=drive_link" target="_blank" class="sample-btn" style="margin-left:6px;border-color:var(--muted);color:var(--muted);" data-en="📄 SPREADSHEET" data-es="📄 HOJA">📄 SPREADSHEET</a>
+      </div>
+    </div>
+
+    <!-- 10 MARKT Marketing -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="GAME MARKETING LOCALIZATION" data-es="LOCALIZACIÓN DE MARKETING">GAME MARKETING LOCALIZATION</span>
+        <span class="proj-genre g-web" data-en="MKT" data-es="MKT">MKT</span>
+      </div>
+      <div class="proj-body">
+        <p data-en="Localized a multi-image game marketing campaign (MARKT2019) maintaining brand voice, character limits, and visual-spatial adaptation. Coordinated text and image elements to ensure cultural and layout fit in the Spanish target market."
+           data-es="Localización de una campaña de marketing de videojuegos con múltiples imágenes (MARKT2019) manteniendo la voz de marca, los límites de caracteres y la adaptación visual-espacial. Coordinación de texto e imagen para el mercado hispanohablante.">Localized a multi-image game marketing campaign maintaining brand voice, character limits, and visual-spatial adaptation for the Spanish market.</p>
+        <div class="proj-tags">
+          <span class="tag">EN → ES</span><span class="tag">Marketing</span><span class="tag">DTP</span><span class="tag">Brand Voice</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>MARKT2019 Campaign · Mar 2026</span>
+        <a href="https://docs.google.com/spreadsheets/d/13JU8h5_oOqZMiFrHF-1KYJNqMfTUcJiB/edit?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a>
+      </div>
+    </div>
+
+    <!-- 11 Pokémon -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="GRAPHIC LOCALIZATION" data-es="LOCALIZACIÓN GRÁFICA">GRAPHIC LOCALIZATION</span>
+        <span class="proj-genre g-rpg" data-en="DTP" data-es="DTP">DTP</span>
+      </div>
+      <div class="proj-body">
+        <p data-en="Adapted a Pokémon-branded game graphic element from English to Spanish in Adobe Photoshop (PSD). Maintained original visual design, font alignment, and spatial layout of the localised text. Demonstrated DTP and graphic localization skills."
+           data-es="Adaptación de un elemento gráfico de marca Pokémon del inglés al español en Adobe Photoshop (PSD). Mantenimiento del diseño visual original, alineación de fuente y distribución espacial del texto localizado. Habilidades de DTP y localización gráfica.">Adapted a Pokémon-branded game graphic element from English to Spanish in Photoshop (PSD), maintaining visual design, typography, and spatial layout.</p>
+        <div class="proj-tags">
+          <span class="tag">EN → ES</span><span class="tag">Photoshop</span><span class="tag">DTP</span><span class="tag">Pokémon</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>Pokémon · Game Freak / Nintendo · Feb 2026</span>
+        <a href="https://drive.google.com/file/d/16XQdALIk1Gg-Aw9zco525MA8jCPd_ar1/view?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a>
+      </div>
+    </div>
+
+    <!-- 12 UI Strings -->
+    <div class="proj-card">
+      <div class="proj-header">
+        <span class="proj-title" data-en="UI STRING LOCALIZATION" data-es="LOCALIZACIÓN DE CADENAS UI">UI STRING LOCALIZATION</span>
+        <span class="proj-genre g-ui" data-en="UI/UX" data-es="UI/UX">UI/UX</span>
+      </div>
+      <div class="proj-body">
+        <p data-en="Localized UI string files for multiple game projects using Excel-based CAT workflows: mainUX.xlsx, objects001.xlsx, Campaign01HO.xlsx, D003.xlsx, system error strings, and interface menus. Practised consistency management, terminology reuse, and character-count constraints."
+           data-es="Localización de archivos de cadenas UI para múltiples proyectos de juegos usando flujos de trabajo CAT en Excel: mainUX.xlsx, objects001.xlsx, Campaign01HO.xlsx, D003.xlsx, cadenas de error y menús de interfaz. Práctica de consistencia terminológica y límites de caracteres.">Multiple UI string projects: menus, system error messages, campaign strings, and interface elements. Excel TM workflows, terminology consistency, char-count constraints.</p>
+        <div class="proj-tags">
+          <span class="tag">EN → ES</span><span class="tag">Excel</span><span class="tag">UI Strings</span><span class="tag">CAT Workflow</span>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <span>Multiple Projects · ISTRAD · Oct–Dec 2025</span>
+        <a href="https://docs.google.com/spreadsheets/d/1joXNTHCBCqW7hFOLYORVE6sWDsK1SJuB/edit?usp=drive_link" target="_blank" class="sample-btn" data-en="📁 VIEW SAMPLE" data-es="📁 VER MUESTRA">📁 VIEW SAMPLE</a><a href="https://docs.google.com/spreadsheets/d/1JfVg6M1z-ZUNAAF8pj6KBf4lLlDxc9Zv/edit?usp=drive_link" target="_blank" class="sample-btn" style="margin-left:6px;border-color:var(--muted);color:var(--muted);" data-en="📄 STRINGS 2" data-es="📄 STRINGS 2">📄 STRINGS 2</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<!-- ══ FCAT ══════════════════════════════════════════════ -->
+<section id="fcat">
+  <p class="sec-label" data-en="PROFESSIONAL INTERNSHIP" data-es="PRÁCTICAS PROFESIONALES">PROFESSIONAL INTERNSHIP</p>
+  <h2 data-en="FCAT — African Film Festival" data-es="FCAT — Festival de Cine Africano">FCAT — African Film Festival</h2>
+  <div class="fcat-wrap">
+    <h3 style="font-family:var(--font-px);font-size:10px;color:var(--gold);margin-bottom:8px;"
+        data-en="Festival de Cine Africano — 23rd Edition, Tarifa–Tanger" data-es="Festival de Cine Africano — 23.ª Edición, Tarifa–Tánger">
+      Festival de Cine Africano — 23rd Edition, Tarifa–Tanger
+    </h3>
+    <p style="font-family:var(--font-mono);font-size:12px;color:var(--cyan);margin-bottom:16px;"
+       data-en="Subtitler & Audiovisual Translator Intern  ·  May 22–30, 2026  ·  TFM Final Practice Report"
+       data-es="Traductora Audiovisual y Subtituladora en Prácticas  ·  22–30 de mayo de 2026  ·  TFM Informe Final de Prácticas">
+      Subtitler &amp; Audiovisual Translator Intern  ·  May 22–30, 2026  ·  TFM Final Practice Report
+    </p>
+    <p style="font-size:15px;line-height:1.8;color:#a0b4c0;"
+       data-en="As the M.A. internship placement, I joined the subtitling team of the 23rd African Film Festival (FCAT) — one of Spain's most prestigious international film festivals, dedicated to African cinema. I translated and subtitled short and feature films from English and French into Spanish, working under professional deadlines and strict editorial protocols."
+       data-es="Como práctica del Máster, me integré en el equipo de subtitulado del Festival de Cine Africano (FCAT) en su 23.ª edición — uno de los festivales internacionales más prestigiosos de España, dedicado al cine africano. Traduje y subtitulé cortometrajes y largometrajes del inglés y el francés al español bajo plazos profesionales y protocolos editoriales estrictos.">
+      As the M.A. internship placement, I joined the subtitling team of the 23rd African Film Festival — one of Spain's most prestigious international film festivals. I translated and subtitled short and feature films from English and French into Spanish under professional deadlines and editorial protocols.
+    </p>
+    <div class="fcat-stats">
+      <div class="stat-box">
+        <div class="stat-num">18</div>
+        <div class="stat-label" data-en="Short Films (10–40 min)" data-es="Cortometrajes (10–40 min)">Short Films (10–40 min)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">5</div>
+        <div class="stat-label" data-en="Feature Films (70–120 min)" data-es="Largometrajes (70–120 min)">Feature Films (70–120 min)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">1</div>
+        <div class="stat-label" data-en="SDH Film (Deaf & HoH)" data-es="Película SDH (Sordos/Hipoacusia)">SDH Film (Deaf &amp; HoH)</div>
+      </div>
+    </div>
+    <p style="font-family:var(--font-px);font-size:8px;color:var(--cyan);margin:20px 0 12px;"
+       data-en="PROFESSIONAL PROTOCOLS APPLIED" data-es="PROTOCOLOS PROFESIONALES APLICADOS">PROFESSIONAL PROTOCOLS APPLIED</p>
+    <div class="protocol-list">
+      <div class="proto-item" data-en="<strong>38-char line limit</strong> — same constraint as game UI string localization" data-es="<strong>Límite de 38 caracteres</strong> — misma restricción que en la localización de cadenas UI"><strong>38-char line limit</strong> — same constraint as game UI string localization</div>
+      <div class="proto-item" data-en="<strong>Condensation</strong> — simplify while preserving meaning; core game dialogue skill" data-es="<strong>Condensación</strong> — simplificar preservando el significado; habilidad clave en diálogos de juegos"><strong>Condensation</strong> — simplify while preserving meaning; core game dialogue skill</div>
+      <div class="proto-item" data-en="<strong>Multi-speaker formatting</strong> — two characters per subtitle block; analogous to game conversation files" data-es="<strong>Formato multilocutor</strong> — dos personajes por subtítulo; análogo a los archivos de conversación de juegos"><strong>Multi-speaker formatting</strong> — two characters per subtitle block</div>
+      <div class="proto-item" data-en="<strong>Style guide compliance</strong> — punctuation, italics, symbols, typography rules" data-es="<strong>Cumplimiento de guía de estilo</strong> — puntuación, cursivas, símbolos, tipografía"><strong>Style guide compliance</strong> — punctuation, italics, symbols, typography</div>
+      <div class="proto-item" data-en="<strong>Cross-cultural sensitivity</strong> — African languages, indigenous names, religious references" data-es="<strong>Sensibilidad intercultural</strong> — lenguas africanas, nombres indígenas, referencias religiosas"><strong>Cross-cultural sensitivity</strong> — African languages, indigenous names</div>
+      <div class="proto-item" data-en="<strong>SDH Subtitling</strong> — accessibility localization for deaf and hard-of-hearing audiences" data-es="<strong>Subtitulado SDH</strong> — localización de accesibilidad para personas sordas o con hipoacusia"><strong>SDH Subtitling</strong> — accessibility localization for deaf &amp; hard-of-hearing</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EDUCATION ══════════════════════════════════════════════ -->
+<div class="full-bg">
+<section id="education">
+  <p class="sec-label" data-en="ACHIEVEMENTS UNLOCKED" data-es="LOGROS DESBLOQUEADOS">ACHIEVEMENTS UNLOCKED</p>
+  <h2 data-en="Education" data-es="Formación">Education</h2>
+  <div class="edu-list">
+    <div class="edu-item" style="border-left:3px solid var(--gold);">
+      <div class="edu-stripe" style="background:var(--gold);"></div>
+      <div class="edu-content">
+        <h3 data-en="M.A. Video Game Translation and Localization" data-es="Máster en Traducción y Localización de Videojuegos">M.A. Video Game Translation and Localization</h3>
+        <div class="where">ISTRAD — Instituto Superior de Estudios Lingüístico y Traducción, Spain · 2025–2026</div>
+        <p data-en="Specialized programme covering the full game localization pipeline: LQA, QA, CAT tools, narrative adaptation, XML/APK localization, subtitling, dubbing, NMT post-editing, and marketing localization. 13+ real project deliverables."
+           data-es="Programa especializado que cubre el pipeline completo de localización de videojuegos: LQA, QA, herramientas CAT, adaptación narrativa, localización XML/APK, subtitulado, doblaje, posedición NMT y localización de marketing. Más de 13 entregables de proyectos reales.">Specialized programme covering the full game localization pipeline: LQA, QA, CAT tools, narrative, XML/APK, subtitling, dubbing, MTPE, and marketing. 13+ project deliverables.</p>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-stripe"></div>
+      <div class="edu-content">
+        <h3 data-en="M.A. Hispanic Linguistics" data-es="Máster en Lingüística Hispánica">M.A. Hispanic Linguistics</h3>
+        <div class="where">University of Illinois at Chicago (UIC), USA · 2020–2022</div>
+        <p data-en="Advanced linguistic studies: sociolinguistics, syntax, phonology, bilingual communities. Strong analytical and research writing base in EN and ES." data-es="Lingüística avanzada: sociolingüística, sintaxis, fonología, comunidades bilingües. Base sólida de escritura analítica e investigadora en inglés y español.">Advanced studies in sociolinguistics, syntax, phonology, and bilingual language contact.</p>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-stripe"></div>
+      <div class="edu-content">
+        <h3 data-en="M.A. Teaching Spanish as a Second Language" data-es="Máster en Enseñanza del Español como Lengua Extranjera">M.A. Teaching Spanish as a Second Language</h3>
+        <div class="where">University of Alicante, Spain · 2017–2019</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-stripe"></div>
+      <div class="edu-content">
+        <h3 data-en="B.A. English (Filología Inglesa)" data-es="Grado en Filología Inglesa">B.A. English (Filología Inglesa)</h3>
+        <div class="where">University of Alicante, Spain · 2011–2017 · International stays: NUI Maynooth (Ireland) & Bishop's University (Canada)</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ══ LANGUAGES ══════════════════════════════════════════════ -->
+<section id="languages">
+  <p class="sec-label" data-en="LANGUAGE STATS" data-es="ESTADÍSTICAS DE IDIOMA">LANGUAGE STATS</p>
+  <h2 data-en="Languages" data-es="Idiomas">Languages</h2>
+  <div class="lang-grid">
+    <div>
+      <div class="lang-item">
+        <div class="lang-row"><span class="lang-name">Español</span><div class="lang-pips"><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div></div></div>
+        <span class="lang-tag" data-en="Native" data-es="Nativo">Native · Castilian &amp; Latin American variants</span>
+      </div>
+      <div class="lang-item">
+        <div class="lang-row"><span class="lang-name">Català</span><div class="lang-pips"><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div></div></div>
+        <span class="lang-tag" data-en="Native" data-es="Nativo">Native</span>
+      </div>
+      <div class="lang-item">
+        <div class="lang-row"><span class="lang-name">English</span><div class="lang-pips"><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip empty"></div></div></div>
+        <span class="lang-tag">C1 Advanced · TOEFL</span>
+      </div>
+    </div>
+    <div>
+      <div class="lang-item">
+        <div class="lang-row"><span class="lang-name">Italiano</span><div class="lang-pips"><div class="pip filled"></div><div class="pip filled"></div><div class="pip filled"></div><div class="pip empty"></div><div class="pip empty"></div></div></div>
+        <span class="lang-tag">B1.2 Intermediate</span>
+      </div>
+      <div class="lang-item">
+        <div class="lang-row"><span class="lang-name">Deutsch</span><div class="lang-pips"><div class="pip filled"></div><div class="pip empty"></div><div class="pip empty"></div><div class="pip empty"></div><div class="pip empty"></div></div></div>
+        <span class="lang-tag">A1.1 Beginner</span>
+      </div>
+      <div class="lang-item">
+        <div class="lang-row"><span class="lang-name">한국어</span><div class="lang-pips"><div class="pip filled"></div><div class="pip empty"></div><div class="pip empty"></div><div class="pip empty"></div><div class="pip empty"></div></div></div>
+        <span class="lang-tag">A1.1 Beginner (TOPIK I)</span>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:24px;font-family:var(--font-mono);font-size:12px;color:var(--muted);"
+     data-en="// Primary working pair: English → Spanish (EN→ES) | Also available: Spanish → English (ES→EN)"
+     data-es="// Par de trabajo principal: inglés → español (EN→ES) | También disponible: español → inglés (ES→EN)">
+    // Primary working pair: English → Spanish (EN→ES) | Also available: Spanish → English (ES→EN)
+  </p>
+</section>
+
+<!-- ══ CONTACT ══════════════════════════════════════════════ -->
+<div class="full-bg">
+<section id="contact">
+  <p class="sec-label" data-en="PLAYER 2 — JOIN THE GAME" data-es="JUGADOR 2 — ÚNETE A LA PARTIDA">PLAYER 2 — JOIN THE GAME</p>
+  <h2 data-en="Contact" data-es="Contacto">Contact</h2>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <h3 data-en="READY TO LOCALIZE?" data-es="¿LISTA PARA LOCALIZAR?">READY TO LOCALIZE?</h3>
+      <p data-en="I am actively seeking game localization opportunities — remote US (Plan A), onsite NYC (Plan B), or international remote (Plan C). Happy to complete a test translation immediately.<br><br>📧 <a href='mailto:lagago11@gmail.com'>lagago11@gmail.com</a><br>📱 +1 551-260-6188<br>📍 Jersey City, NJ, USA<br>💼 <a href='https://www.linkedin.com/in/lara-garcia-gomez-ba83b6b7' target='_blank'>linkedin.com/in/lara-garcia-gomez-ba83b6b7</a>"
+         data-es="Busco activamente oportunidades en localización de videojuegos — remoto en EE.UU. (Plan A), presencial en NYC (Plan B) o internacional remoto (Plan C). Disponible para una prueba de traducción de inmediato.<br><br>📧 <a href='mailto:lagago11@gmail.com'>lagago11@gmail.com</a><br>📱 +1 551-260-6188<br>📍 Jersey City, NJ, EE.UU.<br>💼 <a href='https://www.linkedin.com/in/lara-garcia-gomez-ba83b6b7' target='_blank'>linkedin.com/in/lara-garcia-gomez-ba83b6b7</a>">
+        I am actively seeking game localization opportunities — remote US (Plan A), onsite NYC (Plan B), or international remote (Plan C). Happy to complete a test translation immediately.<br><br>
+        📧 <a href="mailto:lagago11@gmail.com">lagago11@gmail.com</a><br>
+        📱 +1 551-260-6188<br>
+        📍 Jersey City, NJ, USA<br>
+        💼 <a href="https://www.linkedin.com/in/lara-garcia-gomez-ba83b6b7" target="_blank">linkedin.com/in/lara-garcia-gomez-ba83b6b7</a>
+      </p>
+    </div>
+    <div class="contact-card" style="border-left:3px solid var(--magenta);">
+      <h3 data-en="AVAILABILITY" data-es="DISPONIBILIDAD">AVAILABILITY</h3>
+      <p data-en="<strong>Language pair:</strong> English ↔ Spanish<br><strong>Location:</strong> Jersey City, NJ — remote & NYC onsite<br><strong>Work type:</strong> Freelance · Contract · Full-time<br><strong>Status:</strong> Available immediately<br><strong>Test translation:</strong> Provided on request<br><strong>Specialisms:</strong> UI strings · Narrative · Mobile/APK · LQA · Subtitling · Dubbing · MTPE"
+         data-es="<strong>Par lingüístico:</strong> Inglés ↔ Español<br><strong>Ubicación:</strong> Jersey City, NJ — remoto y presencial NYC<br><strong>Modalidad:</strong> Autónoma · Contrato · Jornada completa<br><strong>Estado:</strong> Disponible de inmediato<br><strong>Prueba de traducción:</strong> Disponible bajo petición<br><strong>Especialidades:</strong> Cadenas UI · Narrativa · Móvil/APK · LQA · Subtitulado · Doblaje · MTPE">
+        <strong>Language pair:</strong> English ↔ Spanish<br>
+        <strong>Location:</strong> Jersey City, NJ — remote &amp; NYC onsite<br>
+        <strong>Work type:</strong> Freelance · Contract · Full-time<br>
+        <strong>Status:</strong> Available immediately<br>
+        <strong>Test translation:</strong> Provided on request<br>
+        <strong>Specialisms:</strong> UI strings · Narrative · Mobile/APK · LQA · Subtitling · Dubbing · MTPE
+      </p>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════ -->
+<footer>
+  <p style="font-family:var(--font-px);font-size:9px;color:var(--cyan);margin-bottom:12px;">LARA GARCÍA GÓMEZ</p>
+  <p><strong data-en="Game Localization Specialist" data-es="Especialista en Localización de Videojuegos">Game Localization Specialist</strong> · EN ↔ ES · Jersey City, NJ, USA</p>
+  <p style="margin-top:8px;" data-en="M.A. Video Game Translation and Localization — ISTRAD 2026" data-es="Máster en Traducción y Localización de Videojuegos — ISTRAD 2026">M.A. Video Game Translation and Localization — ISTRAD 2026</p>
+  <p style="margin-top:16px;font-size:10px;" data-en="Made with <span class='heart'>♥</span> and lots of XP" data-es="Hecho con <span class='heart'>♥</span> y muchos XP">Made with <span class="heart">♥</span> and lots of XP</p>
+</footer>
+
+<script>
+// ── LANGUAGE SWITCHER ─────────────────────────────
+let currentLang = 'en';
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (val) {
+      if (el.tagName === 'A' || el.tagName === 'BUTTON') {
+        el.textContent = val;
+      } else if (val.includes('<')) {
+        el.innerHTML = val;
+      } else {
+        el.textContent = val;
+      }
+    }
+  });
+  document.documentElement.lang = lang;
+}
+
+// ── SCROLL ANIMATIONS ─────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.proj-card, .about-card, .edu-item, .contact-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity .5s ease, transform .5s ease';
+  observer.observe(el);
+});
+
+// ── SKILL BARS ANIMATION ──────────────────────────
+const barObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const fill = entry.target.querySelector('.skill-fill');
+      if (fill) {
+        const w = fill.style.width;
+        fill.style.width = '0%';
+        setTimeout(() => { fill.style.width = w; }, 100);
+      }
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.skill-bar-wrap').forEach(el => barObserver.observe(el));
+</script>
+</body>
+</html>
